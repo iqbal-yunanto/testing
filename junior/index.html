@@ -1,0 +1,246 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Kartini Game</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Sniglet:wght@400;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <audio id="opening">
+      <source
+        src="../sounds/opening-sfx.mp3"
+        type="audio/mpeg"
+        style="display: none"
+      />
+    </audio>
+    <audio id="typeSfx" loop>
+      <source
+        src="../sounds/type-sfx.mp3"
+        type="audio/mpeg"
+        style="display: none"
+      />
+    </audio>
+    <audio id="successSfx">
+       
+      <source
+        src="../sounds/success-sfx.mp3"
+        type="audio/mpeg"
+        style="display: none"
+      />
+    </audio>
+    <audio id="nextLevelSfx">
+      <source
+        src="../sounds/newLevel-sfx.mp3"
+        type="audio/mpeg"
+        style="display: none"
+      />
+    </audio>
+    <audio id="ting">
+      <source
+        src="../sounds/ting-sfx.mp3"
+        type="audio/mpeg"
+        style="display: none"
+      />
+    </audio>
+    <audio id="congrats">
+      <source
+        src="../sounds/congrats-sfx.mp3"
+        type="audio/mpeg"
+        style="display: none"
+      />
+    </audio>
+    <audio id="spinSfx">
+      <source
+        src="../sounds/spin-sfx.mp3"
+        type="audio/mpeg"
+        style="display: none"
+      />
+    </audio>
+    <audio id="endGame">
+      <source
+        src="../sounds/endGame-sfx.mp3"
+        type="audio/mpeg"
+        style="display: none"
+      />
+    </audio>
+    <audio id="kartiniInst">
+      <source
+        src="../sounds/kartini-inst.mp3"
+        type="audio/mpeg"
+        style="display: none"
+      />
+    </audio>
+    <audio id="pick-sfx">
+      <source
+        src="../sounds/pick-sfx.mp3"
+        type="audio/mpeg"
+        style="display: none"
+      />
+    </audio>
+    <audio id="drop-sfx">
+      <source
+        src="../sounds/drop-sfx.mp3"
+        type="audio/mpeg"
+        style="display: none"
+      />
+    </audio>
+    <audio id="swap-sfx">
+      <source
+        src="../sounds/swap-sfx.mp3"
+        type="audio/mpeg"
+        style="display: none"
+      />
+    </audio>
+    <audio id="correct-sfx">
+      <source
+        src="../sounds/correct-sfx.mp3"
+        type="audio/mpeg"
+        style="display: none"
+      />
+    </audio>
+    <audio id="wrong-sfx">
+      <source
+        src="../sounds/wrong-sfx.mp3"
+        type="audio/mpeg"
+        style="display: none"
+      />
+    </audio>
+    <div id="customModal" class="modal-overlay">
+      <div class="modal-card">
+        <h3 id="modalTitle">Awesome!</h3>
+        <p id="modalMessage">You did it!</p>
+        <button onclick="closeModal()">Close</button>
+      </div>
+    </div>
+    <div id="home" class="screen active fade-in">
+      <h1>Kartini Game</h1>
+      <p>"Habis Gelap Terbitlah Terang"</p>
+      <span style="margin-bottom: 20px"
+        >Let's play these games and learn about R.A. Kartini</span
+      >
+      <button onclick="next('p1_text')">Start</button>
+    </div>
+
+    <div id="p1_text" class="screen">
+      <p id="typing1"></p>
+      <button id="btn1" onclick="next('p1_game')" style="display: none">
+        Next
+      </button>
+    </div>
+
+    <div id="p1_game" class="screen">
+      <div class="game-box">
+        <p style="color: #512da8">This is Kartini. Start the game to play!</p>
+        <div id="puzzle"></div>
+
+        <div id="timer" style="margin-top: 20px">Time: 0 Seconds</div>
+        <button id="startBtn" onclick="startGame()">Start</button>
+        <button
+          id="nextPuzzle1"
+          onclick="next('p2_text')"
+          style="display: none"
+        >
+          Next
+        </button>
+      </div>
+    </div>
+
+    <div id="p2_text" class="screen">
+      <p id="typing2"></p>
+      <button id="btn2" onclick="next('p2_game')" style="display: none">
+        Next
+      </button>
+    </div>
+
+    <div id="p2_game" class="screen">
+      <div class="game-box">
+        <div id="puzzle2"></div>
+        <div id="timer2" style="margin-top: 20px">Time: 0 seconds</div>
+        <button id="startBtn2" onclick="startGame2()">Start</button>
+        <button
+          id="nextPuzzle2"
+          onclick="next('p3_text')"
+          style="display: none"
+        >
+          Next
+        </button>
+      </div>
+    </div>
+
+    <div id="p3_text" class="screen">
+      <p id="typing3"></p>
+      <button id="btn3" onclick="next('p3_game')" style="display: none">
+        Next
+      </button>
+    </div>
+
+    <div id="p3_game" class="screen">
+      <div class="game-box">
+        <div id="puzzle3"></div>
+        <div id="timer3" style="margin-top: 20px">Time: 0 seconds</div>
+        <button id="startBtn3" onclick="startGame3()">Start</button>
+        <button
+          id="nextPuzzle3"
+          onclick="next('word_text')"
+          style="display: none"
+        >
+          Next
+        </button>
+      </div>
+    </div>
+
+    <div id="word_text" class="screen">
+      <p id="typing4"></p>
+      <button id="btn4" onclick="next('word_game')" style="display: none">
+        Next
+      </button>
+    </div>
+
+    <!-- WORD SEARCH GAME -->
+    <div id="word_game" class="screen">
+      <div class="game-box">
+        <div id="ws">
+          <div id="ws-left">
+            <div id="grid"></div>
+          </div>
+          <div id="ws-right">
+            <div class="word-container" id="word-list"></div>
+          </div>
+        </div>
+      </div>
+      <div id="timerWord">Time: 0 seconds</div>
+      <button id="startBtnWord">Start Game</button>
+      <button id="finishBtn" onclick="next('ending')" style="display: none">
+        Kartini's Message
+      </button>
+    </div>
+
+    <div id="ending" class="screen">
+      <div class="credits-viewport">
+        <div id="credits-container"></div>
+      </div>
+
+      <button id="revealBtn" onclick="goToRank()" style="display: none">
+        Got it and Reveal My Rank
+      </button>
+    </div>
+
+    <div id="rank_screen" class="screen">
+      <h1>Happy Kartini Day</h1>
+      <h2>🏆 Your Rank</h2>
+
+      <div id="box" class="box">🏆</div>
+
+      <div id="result" class="result"></div>
+
+      <p id="totalTimeText"></p>
+      <!-- <button onclick="next('home')">Play Again</button> -->
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>

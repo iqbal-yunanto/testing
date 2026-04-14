@@ -1,0 +1,497 @@
+/* ============================================================
+   1. BASE STYLE & RESET
+   ============================================================ */
+body {
+  font-family: "Sniglet", cursive; /* Font tetap ramah anak */
+  text-align: center;
+  background: #e1bee7; /* Periwinkle Blue */
+  /* Pola bintik halus tetap ada */
+  background-image: radial-gradient(
+    rgba(255, 255, 255, 0.4) 2px,
+    transparent 2px
+  );
+  background-size: 30px 30px;
+  user-select: none;
+  margin: 0;
+  padding: 0;
+}
+
+h1 {
+  margin-top: 20px;
+  color: #311b92; /* Teal Tua */
+}
+h2 {
+  margin: 0;
+  padding: 0;
+}
+
+/* ============================================================
+   2. LAYOUT & SCREENS SYSTEM
+   ============================================================ */
+.screen {
+  display: none;
+  opacity: 0;
+  height: 100vh;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 20px;
+  box-sizing: border-box;
+  transition: opacity 0.5s ease-in-out;
+}
+
+.screen.active {
+  display: flex;
+}
+.screen.fade-in {
+  opacity: 1;
+}
+
+#ending {
+  height: auto;
+  min-height: 100vh;
+  justify-content: flex-start;
+  padding-top: 60px;
+}
+
+.screen p {
+  font-size: 14pt;
+}
+
+#typing1,
+#typing2,
+#typing3,
+#typing4 {
+  width: 40%;
+  color: #512da8; /* Hijau Pinus Gelap */
+  font-style: italic;
+  font-size: 16pt;
+  line-height: 200%;
+}
+
+/* ============================================================
+   3. UNIVERSAL BUTTONS (MINT STYLE)
+   ============================================================ */
+button {
+  padding: 15px 35px;
+  background: #9575cd; /* Warna Mint yang kontras */
+  border: 4px solid white;
+  border-radius: 50px;
+  color: white;
+  font-family: "Sniglet", cursive;
+  font-weight: 800;
+  font-size: 1.5rem;
+  box-shadow: 0 8px 0 rgba(103, 58, 183, 0.2);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+button:hover {
+  transform: scale(1.1);
+  background: #b39ddb; /* Mint lebih terang */
+  box-shadow: 0 4px 0 rgba(0, 77, 64, 0.1);
+}
+
+button:active {
+  transform: scale(0.95);
+  box-shadow: 0 0px 0 rgba(0, 77, 64, 0.1);
+}
+
+button:disabled {
+  background: #bdc3c7;
+  cursor: not-allowed;
+  box-shadow: none;
+  border-color: #eee;
+}
+
+#timer,
+#timer2,
+#timer3,
+#timerWord {
+  color: #311b92;
+}
+
+/* ============================================================
+   4. HOME SCREEN (MINT PATTERN)
+   ============================================================ */
+#home {
+  background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Dekorasi diubah jadi elemen alam yang cocok dengan hijau */
+#home::before {
+  content: "🦋";
+  position: absolute;
+  top: 10%;
+  left: 10%;
+  font-size: 3rem;
+  opacity: 0.3;
+  animation: dynamicFloat 4s infinite;
+}
+
+#home::after {
+  content: "🪻";
+  position: absolute;
+  bottom: 10%;
+  right: 10%;
+  font-size: 3rem;
+  opacity: 0.3;
+  animation: dynamicFloat 5s infinite;
+}
+
+#home h1 {
+  font-family: "Fredoka One", cursive;
+  font-size: 4rem;
+  color: #4527a0;
+  text-shadow: 4px 4px 0px white;
+  margin-bottom: 20px;
+  animation: dynamicFloat 3s ease-in-out infinite;
+}
+
+#home p {
+  font-size: 1.6rem;
+  color: #673ab7;
+  font-weight: bold;
+}
+
+#home p:nth-of-type(1) {
+  animation: popInBounce 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  animation-delay: 0.3s;
+}
+
+#home p:nth-of-type(2) {
+  animation: popInBounce 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  animation-delay: 0.6s;
+}
+
+/* ============================================================
+   5. PUZZLE GAME STYLE
+   ============================================================ */
+.game-box {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+}
+
+#puzzle,
+#puzzle2,
+#puzzle3 {
+  display: grid;
+  width: 360px;
+  height: 360px;
+  gap: 2px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow:
+    rgba(0, 77, 64, 0.2) 0px 1px 2px 0px,
+    rgba(0, 77, 64, 0.1) 0px 1px 3px 1px;
+  margin: 0 auto;
+  background-color: #d1c4e9; /* Warna grid sela puzzle */
+}
+
+.tile {
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+  border-radius: 4px;
+  background-repeat: no-repeat;
+  transition:
+    transform 0.1s ease,
+    box-shadow 0.2s;
+  box-shadow:
+    inset 0 0 2px rgba(0, 0, 0, 0.2),
+    0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.dragging {
+  opacity: 0.5;
+  transform: scale(0.9);
+  z-index: 100;
+}
+
+/* ============================================================
+   6. WORD SEARCH
+   ============================================================ */
+#ws {
+  display: flex;
+  gap: 20px;
+  background-color: #b39ddb; /* Mint Teal */
+  border-radius: 10px;
+}
+
+#ws-left {
+  margin-left: 20px;
+  border-radius: 10px;
+}
+#ws-right {
+  background-color: #f3e5f5; /* Putih Mint Sangat Lembut */
+  border-radius: 0 10px 10px 0;
+}
+
+#grid {
+  display: grid;
+  grid-template-columns: repeat(10, 30px);
+  gap: 4px;
+  justify-content: center;
+  margin: 20px auto;
+  touch-action: none;
+  background: #fff;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  width: max-content;
+}
+
+.cell {
+  width: 30px;
+  height: 30px;
+  background: #d1c4e9;
+  border: 1px solid #e0f2f1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* position: absolute;
+  width: 100%;v
+  opacity: 0;
+  transform: translateY(65vh); */
+  transition:
+    transform 3s cubic-bezier(0.11, 0.5, 0.25, 1),
+    opacity 2s ease-in;
+  /* font-style: italic; */
+  font-size: 1.2rem;
+  color: #512da8;
+  text-align: center;
+  border-radius: 4px;
+  transition: all 0.1s ease;
+  pointer-events: none;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.cell span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  font-weight: bold;
+  font-size: 1rem;
+  cursor: pointer;
+  pointer-events: auto;
+  border-radius: 50%;
+}
+
+.cell.selecting {
+  background: #9575cd !important; /* Mint saat drag */
+  color: white;
+  transform: scale(0.7);
+}
+
+#word-list {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+}
+.word {
+  margin: 5px 10px;
+  text-align: left;
+  color: #5e35b1;
+}
+.word.found {
+  color: #9e9e9e; /* Abu-abu netral */
+  text-decoration: line-through;
+  opacity: 0.7;
+}
+.wave-effect {
+  animation: waveAnim 0.3s ease-in-out;
+}
+
+/* ============================================================
+   7. RANK & CELEBRATION
+   ============================================================ */
+.box {
+  width: 150px;
+  height: 150px;
+  margin: 20px auto;
+  background: #9575cd; /* Box rank jadi mint */
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 60px;
+  box-shadow: 0 8px 0 rgba(0, 77, 64, 0.1);
+}
+
+.result {
+  margin-top: 20px;
+  opacity: 0;
+  transform: scale(0.5);
+  transition: all 0.4s;
+}
+.show {
+  opacity: 1;
+  transform: scale(1);
+}
+.tier {
+  font-size: 28px;
+  font-weight: bold;
+  color: #004d40;
+}
+.rank {
+  font-size: 36px;
+  color: #00796b;
+}
+
+/* ============================================================
+   8. MODAL & CREDITS
+   ============================================================ */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.75); /* Overlay jadi gelap kehijauan */
+  z-index: 10000;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-card {
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+  text-align: center;
+  min-width: 300px;
+  border: 4px solid #e1bee7;
+  animation: popIn 0.3s ease-out;
+}
+.credits-viewport {
+  width: 90%;
+  max-width: 650px;
+  height: 60vh;
+  position: relative;
+  overflow: hidden;
+  margin: 0 auto 20px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+}
+
+.advice-verse {
+  position: absolute;
+  width: 100%;
+  opacity: 0;
+  transform: translateY(65vh);
+  transition:
+    transform 3s cubic-bezier(0.11, 0.5, 0.25, 1),
+    opacity 2s ease-in;
+  font-style: italic;
+  font-size: 1.4rem;
+  color: #311b92;
+  text-align: center;
+}
+
+.advice-verse.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+/* ============================================================
+   9. KEYFRAMES (SAMA DENGAN ASLI)
+   ============================================================ */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes popInBounce {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  70% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes dynamicFloat {
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-10px) rotate(1deg);
+  }
+  75% {
+    transform: translateY(-10px) rotate(-1deg);
+  }
+}
+
+@keyframes floatUp {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-120vh);
+    opacity: 0;
+  }
+}
+
+@keyframes waveAnim {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.3);
+  }
+}
+
+@keyframes popIn {
+  from {
+    transform: scale(0.7);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Style untuk balon/emoji selebrasi */
+.balloon {
+  position: fixed;
+  bottom: -50px; /* Mulai dari bawah layar */
+  font-size: 2rem;
+  z-index: 9999;
+  user-select: none;
+  pointer-events: none;
+  animation: floatUpAnimation 4s linear forwards;
+}
+
+@keyframes floatUpAnimation {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-110vh) rotate(20deg); /* Bergerak ke atas melebihi tinggi layar */
+    opacity: 0;
+  }
+}
